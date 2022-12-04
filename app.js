@@ -36,14 +36,14 @@ const createCommentsTable = `CREATE TABLE comments(id int AUTO_INCREMENT,
     PRIMARY KEY(id))`
 
 
-    // FOREIGN KEY(postId) REFERENCES post(id)
+// FOREIGN KEY(postId) REFERENCES post(id)
 
 const createPostsTable = ` CREATE TABLE posts(id int AUTO_INCREMENT,
         userId  INT,
         title VARCHAR(255),
         body VARCHAR(255),
         PRIMARY KEY(id))`
-        // FOREIGN KEY(userId) REFERENCES user(id)
+// FOREIGN KEY(userId) REFERENCES user(id)
 
 const createTodosTable = `
         CREATE TABLE todos(id int AUTO_INCREMENT,
@@ -51,7 +51,7 @@ const createTodosTable = `
                 title VARCHAR(255),
                 completed BOOLEAN,
                 PRIMARY KEY(id)) `
-                // FOREIGN KEY(userId) REFERENCES user(id)
+// FOREIGN KEY(userId) REFERENCES user(id)
 
 const createUsersTable = ` CREATE TABLE users(id int AUTO_INCREMENT,
                 postId INT,
@@ -59,19 +59,20 @@ const createUsersTable = ` CREATE TABLE users(id int AUTO_INCREMENT,
                 username VARCHAR(255),
                 email VARCHAR(255),
                 PRIMARY KEY(id))`
-                // FOREIGN KEY(postId) REFERENCES post(id)
+// FOREIGN KEY(postId) REFERENCES post(id)
 const makeTables = [
     createCommentsTable,
     createPostsTable,
     createTodosTable,
     createUsersTable
 ]
-
+// createDB
 // db.query(createDB, (err, result, fields) => {
-    //         if (err) throw err;
-    //         console.log("Result: ", result);
-    //     })
+//             if (err) throw err;
+//             console.log("Result: ", result);
+//         })
 
+// makeTables
 // makeTables.forEach(element => {
 // db.query(element, (err, result, fields) => {
 //         if (err) throw err;
@@ -79,8 +80,8 @@ const makeTables = [
 //     })
 // });
 
-
-// let stmt = `INSERT INTO todos(userId, title, completed) VALUES ?`;      
+// INSERT  todos
+// let sql = `INSERT INTO todos(userId, title, completed) VALUES ?`;      
 // let todos = [
 //     [1, '1 todo', false],
 //     [2, '2 todo', false],
@@ -88,22 +89,73 @@ const makeTables = [
 //     [4, 'todo 4', true],
 //     [5, 'todo 5', false]
 // ];
-//     db.query(stmt, [todos], (err, result, fields) => {
+//     db.query(sql, [todos], (err, result, fields) => {
 //             if (err) throw err;
 //             console.log("Result: ", result);
 //         })
 
-
+// INSERT  comments
 // let stmt = `INSERT INTO comments(postId, name, email, body) VALUES ?`;      
 // let comments = [
 //     ['1', 'moshe', 'moshe@email.gmail.com', 'this is a good day'],
 //     ['2', 'david', 'david@email.gmail.com', 'this is not good day'],
- 
+
 // ];
 //     db.query(stmt, [comments], (err, result, fields) => {
 //             if (err) throw err;
 //             console.log("Result: ", result);
 //         })
+
+// INSERT  posts
+// let sql = `INSERT INTO posts(userId, title, body) VALUES ?`;      
+// let posts = [
+//     ['1', 'one day', 'this is a good day'],
+//     ['2', 'secound day', 'this is not good day'],
+
+// ];
+//     db.query(sql, [posts], (err, result, fields) => {
+//             if (err) throw err;
+//             console.log("Result: ", result);
+//         })
+
+// // INSERT  users
+// let sql3 = `INSERT INTO users(postId, name, username, email) VALUES ?`;      
+// let users = [
+//     ['1', 'david', 'dd','dd@gmail.com'],
+//     ['2', 'mush', 'mumu', 'mm@gmail.com'],
+
+// ];
+//     db.query(sql3, [users], (err, result, fields) => {
+//             if (err) throw err;
+//             console.log("Result: ", result);
+//         })
+
+app.get('/:table', (req, res) => {
+    if (req.params.table === 'favicon.ico') {
+        console.log('favicon.ico');
+    } else if (req.params.table === 'users' || 'posts' || 'comments' || 'todos') {
+        let sql = `SELECT * FROM ${req.params.table}`
+        db.query(sql, (err, result, fields) => {
+            if (err) throw err;
+            console.log("Result: ", result);
+            res.send("Result: " + JSON.stringify(result));
+        })
+    }
+})
+
+app.get('/:table/:id', (req, res) => {
+    if (req.params.table === 'favicon.ico') {
+        console.log('favicon.ico');
+    } else if (req.params.table === 'users' || 'posts' || 'comments' || 'todos') {
+        let sql = `SELECT * FROM ${req.params.table} WHERE ${req.params.id = 'id'}`
+        db.query(sql, (err, result, fields) => {
+            if (err) throw err;
+            console.log("Result: ", result);
+            res.send("Result: " + JSON.stringify(result));
+        })
+    }
+})
+
 
 
 app.listen(3000, console.log("listning to port 3000"))
